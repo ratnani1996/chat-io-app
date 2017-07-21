@@ -6,7 +6,15 @@ socket.on('connect', ()=>{
     socket.on('newMessage', (message)=>{
         console.log(message)
     })
+
+    
 });
+
+
+socket.emit('createMessage', {
+        from : "Harshit",
+        text : "This is a random text"
+}, (acknowledgement)=>{console.log(acknowledgement)});
 
 socket.on('disconnect', ()=>{console.log(`Connection Interrupted`)});
 
