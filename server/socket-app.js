@@ -13,8 +13,8 @@ function iofunctionality(io){
         socket.on('createMessage', (message , callback)=>{
             console.log(message);
             io.emit('newMessage', generateMessage(message.from , message.text))
-            callback("Got the message");
-        });
+            callback('Got it')
+        })
 
         socket.on('disconnect', ()=>{
             console.log(`User disconnected`)
