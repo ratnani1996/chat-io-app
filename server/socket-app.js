@@ -19,7 +19,7 @@ function iofunctionality(io){
         socket.on('disconnect', ()=>{
             console.log(`User disconnected`)
             //emit message when a user gets disconnected
-            socket.broadcast.emit('newMessage', generateMessage("Admin", "One user disconnected"));
+            socket.broadcast.emit('newMessage', generateMessage("Admin", "User disconnected"));
         });
     })
 }

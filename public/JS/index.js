@@ -14,7 +14,7 @@ socket.on('connect', ()=>{
 
 
 // import $ from 'jquery';
-
+//on clicking send the message 
 $("#message-form").on('submit', function(e){
     e.preventDefault();
     socket.emit('createMessage', {
@@ -22,7 +22,21 @@ $("#message-form").on('submit', function(e){
         text : $(`input[name="message"]`).val()
     }, function(data){console.log(data)})
 })
-
+//on clicking send loation send the location 
+$("#submit-location").on('click', function(e){
+    if(!navigator.geolocation){
+        alert(`Unable to fetch location`);
+    }
+    else{
+        navigator.geolocation.getCurrentPosition(function(position){
+            $("#messages").append(`<li>${position}</li>`);
+            console.log(position)
+        }, function(err){
+            console.log(err);
+            // alert(`Unable to fetch location`)
+        })
+    }
+})
 
 socket.on('disconnect', function(){
     console.log(`User disconnected`);
