@@ -29,15 +29,28 @@ $("#submit-location").on('click', function(e){
     }
     else{
         navigator.geolocation.getCurrentPosition(function(position){
-            $("#messages").append(`<li>${position}</li>`);
-            console.log(position)
-        }, function(err){
-            console.log(err);
-            // alert(`Unable to fetch location`)
+            //send the location if found
+            socket.emit('sendLocation', {
+                latitude : position.latitude,
+                longitude : position.longitude
+            })
+        }, function(err){   //send the location if not found
+            socket.emit('sendLocationError' , "This is a position");
         })
     }
 })
+//display the position if found
+socket.on('displayLocation', function(data){
+    $("#messages").append(`<li>${data.latitude} , ${data.longitude}</li>`);
+})
 
+//display the position if not found
+socket.on('displayLocationError', function(data){
+    $("#messages").append(`<li>${data}</li>`);
+})
+
+
+//when the user disconnects
 socket.on('disconnect', function(){
     console.log(`User disconnected`);
 })
