@@ -1,5 +1,5 @@
 const path = require('path');
-var {generateMessage} = require(path.join(__dirname , 'utils' , 'messages.js'));
+var {generateMessage , generateLocationMessage} = require(path.join(__dirname , 'utils' , 'messages.js'));
 
 function iofunctionality(io){
     io.on('connection', (socket)=>{
@@ -12,18 +12,20 @@ function iofunctionality(io){
 
         //send a new message
         socket.on('createMessage', (message, callback)=>{
-            console.log(message);
             io.emit('newMessage', generateMessage(message.from , message.text))
             callback("Got it");
         })
         
         //send location if found
         socket.on('sendLocation', (position)=>{
-            io.emit('displayLocation', position);
+            io.emit('displayLocation', generateLocationMessage("Admin" , position));
         })
         //send location if not found
         socket.on('sendLocationError', (positionError)=>{
-            io.emit('displayLocationError', positionError)
+            io.emit('displayLocationError', {
+                user : "User",
+                position : positionError
+            })
         })
 
         //when the user disconnects

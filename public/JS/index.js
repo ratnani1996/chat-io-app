@@ -36,17 +36,17 @@ $("#submit-location").on('click', function(e){
             })
         }, function(err){   //send the location if not found
             socket.emit('sendLocationError' , "This is a position");
-        })
+        } , {timeout:10000})
     }
 })
 //display the position if found
 socket.on('displayLocation', function(data){
-    $("#messages").append(`<li>${data.latitude} , ${data.longitude}</li>`);
+    $("#messages").append(`<li>${data.from} : ${data.url}</li>`);
 })
 
 //display the position if not found
 socket.on('displayLocationError', function(data){
-    $("#messages").append(`<li>${data}</li>`);
+    $("#messages").append(`<li>${data.user} : ${data.position}</li>`);
 })
 
 
