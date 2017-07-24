@@ -13,7 +13,7 @@ socket.on('connect', ()=>{
 });
 
 
-// import $ from 'jquery';
+import $ from 'jquery';
 //on clicking send the message 
 $("#message-form").on('submit', function(e){
     e.preventDefault();
