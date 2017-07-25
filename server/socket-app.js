@@ -1,5 +1,5 @@
 const path = require('path');
-var {generateMessage , generateLocationMessage} = require(path.join(__dirname , 'utils' , 'messages.js'));
+var {generateMessage , generateLocationMessage, generateErrorLocationMessage} = require(path.join(__dirname , 'utils' , 'messages.js'));
 
 function iofunctionality(io){
     io.on('connection', (socket)=>{
@@ -22,10 +22,7 @@ function iofunctionality(io){
         })
         //send location if not found
         socket.on('sendLocationError', (positionError)=>{
-            io.emit('displayLocationError', {
-                user : "User",
-                position : positionError
-            })
+            io.emit('displayLocationError', generateErrorLocationMessage("User", "This is a location"))
         })
 
         //when the user disconnects
