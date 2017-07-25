@@ -7,7 +7,7 @@ socket.on('connect', ()=>{
 
     socket.on('newMessage', (message)=>{
         console.log(message)
-        $("#messages").append(`<li>${message.from} : ${message.text}</li>`);
+        $("#messages").append(`<li>${message.from} ${message.createdAt}: ${message.text}</li>`);
         $(`input[name="message"]`).val('');
     })
 });
@@ -29,10 +29,11 @@ $("#submit-location").on('click', function(e){
     }
     else{
         navigator.geolocation.getCurrentPosition(function(position){
+            console.log(position)
             //send the location if found
             socket.emit('sendLocation', {
-                latitude : position.latitude,
-                longitude : position.longitude
+                latitude : position.coords.latitude,
+                longitude : position.coords.longitude
             })
         }, function(err){   //send the location if not found
             socket.emit('sendLocationError' , "This is a position");
@@ -41,12 +42,12 @@ $("#submit-location").on('click', function(e){
 })
 //display the position if found
 socket.on('displayLocation', function(data){
-    $("#messages").append(`<li>${data.from} : ${data.url}</li>`);
+    $("#messages").append(`<li>${data.from} ${data.createdAt} : <a href="${data.url}" target="_blank">My location</a></li>`);
 })
 
 //display the position if not found
 socket.on('displayLocationError', function(data){
-    $("#messages").append(`<li>${data.user} : ${data.position}</li>`);
+    $("#messages").append(`<li>${data.from} ${data.createdAt} : ${data.text}</li>`);
 })
 
 
