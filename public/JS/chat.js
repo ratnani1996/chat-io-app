@@ -1,6 +1,6 @@
 
 
-// import  $ from jquery;
+
 
 function scrollToBottom(){
     //messages

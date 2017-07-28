@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <title>Chat | Chatapp</title>
+        <link href="CSS/index.css" rel="stylesheet" type="text/css">
+    </head>
+    <body class="chat">
+        <div class="chat__sidebar">
+            <h3>People</h3>
+            <div id="users"></div>
+        </div>
+        <div class="chat__main">
+                <ol id="messages" class="chat__messages"></ol>
+                <div class="chat__footer">
+                    <form id="message-form">
+                        <input name="message" type="text" placeholder="Enter your message" autocomplete="off" autofocus/>
+                        <button>Send</button>
+                    </form>
+                    <button id="submit-location">Send Location</button>
+                </div>
+        </div>
+        
+        
+        <script id="message-template" type="text/template">
+            <li class="message">
+                <div class="message__title">
+                    <h4>{{from}}</h4>
+                    <span>{{createdAt}}</span>
+                </div>
+                <div class="message__body">
+                    <p>{{text}}</p>
+                </div>
+            </li>
+        </script>
+        <script id="location-template" type="text/template">
+            <li class="message">
+                <div class="message__title">
+                    <h4>{{from}}</h4>
+                    <span>{{createdAt}}</span>
+                </div>
+                <div class="message__body">
+                    <p><a href={{url}} target="_blank">My location</a></p>
+                </div>
+            </li>
+        </script>
+        
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/libs/jQuery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script> 
+        <script src="JS/chat.js"></script>
+        
+    </body>
+</html>
