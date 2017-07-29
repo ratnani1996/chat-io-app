@@ -1,6 +1,8 @@
 const path = require('path');
 var {generateMessage , generateLocationMessage, generateErrorLocationMessage} = require(path.join(__dirname , 'utils' , 'messages.js'));
 var {validateStr} = require(path.join(__dirname , 'utils' , 'validation.js'));
+var {Users} = require(path.join (__dirname , 'utils', 'users.js'));
+var users = new Users();
 
 function iofunctionality(io){
     io.on('connection', (socket)=>{
@@ -25,11 +27,14 @@ function iofunctionality(io){
 
         //user joined the room
         socket.on('join', (params, callback)=>{
-            console.log(params);
             //if there is no error params are valid
             if(validateStr(params.name) && validateStr(params.room)){
                 
                 socket.join(params.room);
+                users.removeUser(socket.id);
+                users.addUser(socket.id, params.name, params.room);
+                io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+
 
                 //io.emit -> io.to(`The office fans`).emit //emits to every single user in the room
                 //socket.emit -> socket.to(`The Office fans`).emit //emits to the user only
@@ -49,8 +54,12 @@ function iofunctionality(io){
         //when the user disconnects
         socket.on('disconnect', ()=>{
             console.log(`User disconnected`)
-            //emit message when a user gets disconnected
-            socket.broadcast.emit('newMessage', generateMessage("Admin", "User disconnected"));
+            var user = users.removeUser(socket.id);
+            if(user.length > 0){
+                var getUserList = users.getUserList(user[0].room);
+                socket.to(user[0].room).emit('updateUserList', getUserList);
+                socket.to(user[0].room).emit('newMessage', generateMessage("Admin", `${user[0].name} has Disconnected`));
+            }
         });
     })
 }

@@ -37,6 +37,11 @@ socket.on('connect', ()=>{
     })
 });
 
+//update user list
+socket.on('updateUserList', function(users){
+    console.log(users);
+})
+
 socket.on('newMessage', (message)=>{
     console.log(message)
     var template = $("#message-template").html();
