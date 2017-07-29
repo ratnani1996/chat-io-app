@@ -24,21 +24,31 @@ var socket = io();
 
 socket.on('connect', ()=>{
     console.log(`Connection to the server is up and running`)
-
-    socket.on('newMessage', (message)=>{
-        console.log(message)
-        var template = $("#message-template").html();
-        var html = Mustache.render(template,{
-            from : message.from,
-            text : message.text,
-            createdAt : message.createdAt
-        } )
-        $("#messages").append(html);
-        $(`input[name="message"]`).val('');
-        scrollToBottom();
+    var params = $.deparam(location.search);
+    //join room and send data to the server
+    socket.emit('join', params , function(err){
+        if(err){
+            alert(err);
+            window.location.href = '/';
+        }
+        else{
+            console.log(`No error`);
+        }
     })
 });
 
+socket.on('newMessage', (message)=>{
+    console.log(message)
+    var template = $("#message-template").html();
+    var html = Mustache.render(template,{
+        from : message.from,
+        text : message.text,
+        createdAt : message.createdAt
+    } )
+    $("#messages").append(html);
+    $(`input[name="message"]`).val('');
+    scrollToBottom();
+})
 
 // import $ from 'jquery';
 //on clicking send the message 
