@@ -39,7 +39,11 @@ socket.on('connect', ()=>{
 
 //update user list
 socket.on('updateUserList', function(users){
-    console.log(users);
+    var ol = $('<ol></ol>');
+    users.forEach(function(user){
+        ol.append($('<li></li>').text(user));
+    })
+    $("#users").html(ol);
 })
 
 socket.on('newMessage', (message)=>{
