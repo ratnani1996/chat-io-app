@@ -23,7 +23,7 @@ function scrollToBottom(){
 var socket = io();
 
 socket.on('connect', ()=>{
-    console.log(`Connection to the server is up and running`)
+    
     var params = $.deparam(location.search);
     //join room and send data to the server
     socket.emit('join', params , function(err){
@@ -32,7 +32,7 @@ socket.on('connect', ()=>{
             window.location.href = '/';
         }
         else{
-            console.log(`No error`);
+            
         }
     })
 });
@@ -47,7 +47,7 @@ socket.on('updateUserList', function(users){
 })
 
 socket.on('newMessage', (message)=>{
-    console.log(message)
+    
     if(message.text.trim().length != 0 ){
            var template = $("#message-template").html();
         var html = Mustache.render(template,{
@@ -78,7 +78,7 @@ $("#submit-location").on('click', function(e){
     }
     else{
         navigator.geolocation.getCurrentPosition(function(position){
-            console.log(position)
+            
             //send the location if found
             socket.emit('sendLocation', {
                 latitude : position.coords.latitude,
@@ -91,7 +91,7 @@ $("#submit-location").on('click', function(e){
 })
 //display the position if found
 socket.on('displayLocation', function(data){
-    console.log(data)
+    
     // $("#messages").append(`<li>${data.from} ${data.createdAt} : <a href="${data.url}" target="_blank">My location</a></li>`);
     var template = $("#location-template").html();
         var html = Mustache.render(template,{
@@ -107,7 +107,7 @@ socket.on('displayLocation', function(data){
 //display the position if not found
 socket.on('displayLocationError', function(data){
     // $("#messages").append(`<li>${data.from} ${data.createdAt} : ${data.text}</li>`);
-    console.log(data)
+    
         var template = $("#message-template").html();
         var html = Mustache.render(template,{
             from : data.from,
@@ -123,6 +123,6 @@ socket.on('displayLocationError', function(data){
 
 //when the user disconnects
 socket.on('disconnect', function(){
-    console.log(`User disconnected`);
+    
 })
 
