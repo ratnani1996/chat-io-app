@@ -12,17 +12,11 @@ function iofunctionality(io){
 
         
         
-        //send location if found
-        socket.on('sendLocation', (position)=>{
-            io.emit('displayLocation', generateLocationMessage("Admin" , position));
-        })
-        //send location if not found
-        socket.on('sendLocationError', (positionError)=>{
-            io.emit('displayLocationError', generateErrorLocationMessage("User", "This is a location"))
-        })
+        
 
         //user joined the room
         socket.on('join', (params, callback)=>{
+            params.room = params.room.toLowerCase();
             //if there is no error params are valid
             if(validateStr(params.name) && validateStr(params.room)){
                 
@@ -36,12 +30,20 @@ function iofunctionality(io){
                 //socket.emit -> socket.to(`The Office fans`).emit //emits to the user only
                 //socket.broadcast.emit -> socket.broadcast.to(`The office fans`).emit // emits to every user but the joined user
                 //emit message to the user for connection
+                //send location if found
+                socket.on('sendLocation', (position)=>{
+                    io.to(params.room).emit('displayLocation', generateLocationMessage(`${params.name}` , position));
+                })
+                //send location if not found
+                socket.on('sendLocationError', (positionError)=>{
+                    io.to(params.room).emit('displayLocationError', generateErrorLocationMessage(`${params.name}`, "This is a location"))
+                })
 
                 //send a new message
-            socket.on('createMessage', (message, callback)=>{
-                io.to(params.room).emit('newMessage', generateMessage(`${params.name}` , message.text))
-                callback("Got it");
-            })
+                socket.on('createMessage', (message, callback)=>{
+                    io.to(params.room).emit('newMessage', generateMessage(`${params.name}` , message.text))
+                    callback("Got it");
+                })
 
                 socket.emit('newMessage', generateMessage("Admin" , "Welcome to the chat application"));
                 //emit message to every single user
