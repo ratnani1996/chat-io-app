@@ -48,15 +48,18 @@ socket.on('updateUserList', function(users){
 
 socket.on('newMessage', (message)=>{
     console.log(message)
-    var template = $("#message-template").html();
-    var html = Mustache.render(template,{
-        from : message.from,
-        text : message.text,
-        createdAt : message.createdAt
-    } )
-    $("#messages").append(html);
-    $(`input[name="message"]`).val('');
-    scrollToBottom();
+    if(message.text.trim().length != 0 ){
+           var template = $("#message-template").html();
+        var html = Mustache.render(template,{
+            from : message.from,
+            text : message.text,
+            createdAt : message.createdAt
+        } )
+        $("#messages").append(html);
+        $(`input[name="message"]`).val('');
+        scrollToBottom()
+    }
+ ;
 })
 
 // import $ from 'jquery';
