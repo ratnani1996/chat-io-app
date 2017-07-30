@@ -10,11 +10,7 @@ function iofunctionality(io){
 
         
 
-        //send a new message
-        socket.on('createMessage', (message, callback)=>{
-            io.emit('newMessage', generateMessage(message.from , message.text))
-            callback("Got it");
-        })
+        
         
         //send location if found
         socket.on('sendLocation', (position)=>{
@@ -40,6 +36,12 @@ function iofunctionality(io){
                 //socket.emit -> socket.to(`The Office fans`).emit //emits to the user only
                 //socket.broadcast.emit -> socket.broadcast.to(`The office fans`).emit // emits to every user but the joined user
                 //emit message to the user for connection
+
+                //send a new message
+            socket.on('createMessage', (message, callback)=>{
+                io.to(params.room).emit('newMessage', generateMessage(`${params.name}` , message.text))
+                callback("Got it");
+            })
 
                 socket.emit('newMessage', generateMessage("Admin" , "Welcome to the chat application"));
                 //emit message to every single user
