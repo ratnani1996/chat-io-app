@@ -27,9 +27,13 @@ Switch to another tab and enter another Name but same Room name. The two tabs ca
 
 outputs
 
-![Login](../master/outputs/Login.png)
+<p align="center">
+  <img src="outputs/Login.png" width="450"/>
+</p>
 
-![Chat Area](../master/outputs/Chat area.png)
+<p align="center">
+  <img src="outputs/Chat area.png" width="450"/>
+</p>
 
 ## See Also
 
