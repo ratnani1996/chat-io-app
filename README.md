@@ -25,7 +25,7 @@ Switch to another tab and enter another Name but same Room name. The two tabs ca
 
 ```
 
-outputs
+##outputs
 
 <p align="center">
   <img src="outputs/Login.png" width="450"/>
