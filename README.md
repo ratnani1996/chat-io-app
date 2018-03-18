@@ -27,10 +27,8 @@ Switch to another tab and enter another Name but same Room name. The two tabs ca
 
 outputs
 
-```
 ![Login](../master/outputs/Login.png)
 ![Chat Area](../master/outputs/Chat area.png)
-```
 
 ## See Also
 
